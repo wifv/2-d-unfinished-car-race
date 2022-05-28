@@ -1,0 +1,56 @@
+#python
+import time
+import pyautogui
+from ursina import *
+app = Ursina()
+camera.orthographic = True
+camera.fov = 76
+
+#i used my own textures(maybe not)
+Sprite(model='quad', texture='ay.png', scale=(20, 10), z=1)
+enemy = Entity(model='cube', texture='ayu.png', collider='box', scale=(117, 50), z=1)
+player = Entity()
+car = Entity(model='quad', texture='car', collider='box', scale=(7, 4), y=-0.5)
+car1 = Entity(model='quad', texture='car2', collider='box', scale=(6, 3.2), y=-0.5)
+
+#butons
+def update():
+    #car
+    car.x += held_keys['d'] * 0.6
+    car.x -= held_keys['a'] * 0.6
+    car.y += held_keys['w'] * 0.6
+    car.y -= held_keys['s'] * 0.6
+	
+	#car rotation
+    if held_keys['d']:
+        car.rotation_z = 0
+    if held_keys['a']:
+        car.rotation_z = 180
+    if held_keys['w']:
+        car.rotation_z = 270
+    if held_keys['s']:
+        car.rotation_z = 90
+
+    #car1
+    car1.x += held_keys['l'] * 0.6
+    car1.x -= held_keys['j'] * 0.6
+    car1.y += held_keys['i'] * 0.6
+    car1.y -= held_keys['k'] * 0.6
+	
+	#car1 rotation
+    if held_keys['l']:
+        car1.rotation_z = 0
+    if held_keys['j']:
+        car1.rotation_z = 180
+    if held_keys['i']:
+        car1.rotation_z = 270
+    if held_keys['k']:
+        car1.rotation_z = 90
+	
+    #shaking (car crash)
+    if car.intersects().hit:
+        car1.shake()
+    if car1.intersects().hit:
+        car.shake()
+app.run()
+input()
